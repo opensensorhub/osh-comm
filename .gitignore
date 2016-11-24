@@ -4,4 +4,7 @@
 **/.gradle/
 **/.DStore
 **/.DS_Store
+**/.settings
+**/.project
+**/.classpath
 
