@@ -1,17 +1,20 @@
 rootProject.name = 'osh-comm'
 gradle.ext.oshCoreDir = "$rootDir/../osh-core"
 
-// include core as dependent build
-//includeBuild gradle.oshCoreDir // NOT SUPPORTED YET
+// include osh-core only if not part of larger build
+// this is needed to avoid nested composite builds
+if (gradle.parent == null)
+  includeBuild gradle.oshCoreDir
+
 // include all core projects directly since we cannot nest composite builds
-include 'swe-common-core'
+/*include 'swe-common-core'
 include 'swe-common-om'
 include 'sensorml-core'
 include 'sensorhub-core'
 project(':swe-common-core').projectDir = "$gradle.oshCoreDir/lib-swe-common/swe-common-core" as File
 project(':swe-common-om').projectDir = "$gradle.oshCoreDir/lib-swe-common/swe-common-om" as File
 project(':sensorml-core').projectDir = "$gradle.oshCoreDir/lib-sensorml/sensorml-core" as File
-project(':sensorhub-core').projectDir = "$gradle.oshCoreDir/sensorhub-core" as File
+project(':sensorhub-core').projectDir = "$gradle.oshCoreDir/sensorhub-core" as File*/
 
 // below is another way to include everything from core but it's dead slow!!
 /*def oshCoreFolder = new File(gradle.oshCoreDir)
