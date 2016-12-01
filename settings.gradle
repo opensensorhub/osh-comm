@@ -1,32 +1,10 @@
 rootProject.name = 'osh-comm'
 gradle.ext.oshCoreDir = "$rootDir/../osh-core"
 
-// include osh-core only if not part of larger build
+// include osh-core build only if not part of larger build
 // this is needed to avoid nested composite builds
 if (gradle.parent == null)
   includeBuild gradle.oshCoreDir
-
-// include all core projects directly since we cannot nest composite builds
-/*include 'swe-common-core'
-include 'swe-common-om'
-include 'sensorml-core'
-include 'sensorhub-core'
-project(':swe-common-core').projectDir = "$gradle.oshCoreDir/lib-swe-common/swe-common-core" as File
-project(':swe-common-om').projectDir = "$gradle.oshCoreDir/lib-swe-common/swe-common-om" as File
-project(':sensorml-core').projectDir = "$gradle.oshCoreDir/lib-sensorml/sensorml-core" as File
-project(':sensorhub-core').projectDir = "$gradle.oshCoreDir/sensorhub-core" as File*/
-
-// below is another way to include everything from core but it's dead slow!!
-/*def oshCoreFolder = new File(gradle.oshCoreDir)
-import org.gradle.tooling.*
-import org.gradle.tooling.model.*
-ProjectConnection connection = GradleConnector.newConnector().forProjectDirectory(oshCoreFolder).connect()
-ModelBuilder<GradleProject> builder = connection.model(GradleProject.class)
-GradleProject oshCoreProject = builder.get()
-oshCoreProject.children.each { p ->
-  include p.path
-  project(p.path).projectDir = p.projectDirectory
-}*/
 
 // include all folders with build.gradle as subprojects
 FileTree subprojects = fileTree(rootDir).include('**/build.gradle')
